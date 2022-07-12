@@ -5,6 +5,6 @@ import org.mapstruct.Mapper;
 
 @Mapper
 public interface FahrzeugToFahrzeugResourceMapper {
-    Fahrzeug mapToFahrzeug(FahrzeugResource fahrzeugResource);
-    FahrzeugResource mapToFahrzeugResource(Fahrzeug fahrzeug);
+    Fahrzeug mapFahrzeugResourceToFahrzeug(FahrzeugResource fahrzeugResource);
+    FahrzeugResource mapFahrzeugToFahrzeugResource(Fahrzeug fahrzeug);
 }

@@ -8,14 +8,24 @@
 Am Beispiel der Root Entity Fahrzeug wird das Clean Architecture Pattern veranschaulicht. Die Strukturierung des Moduls Fahrzeug ist
 architektonisch ausdrucksstark abgebildet. Für das Mapping wird die Two-Way Mapping Strategie eingesetzt.
 
-## Mappings mit AutoMapper
+## Mappings mit MapStruct
 
 Library: [MapStruct](https://mapstruct.org/)
 
 ### Simples Mapping zwischen Domäne und der Infrastrukturkomponente Web
 
-Die Two-Way Mapping Strategie kann auf Basis einer einfachen Konfiguration realisiert werden, wenn die Klasseneigenschaften den gleichen Namen haben.
+Die Two-Way Mapping Strategie kann auf Basis eines Interface annotiert mit `@Mapper` realisiert werden, 
+wenn die Klasseneigenschaften den gleichen Namen haben.
 Dies ist der Fall bei der Entity Fahrzeug und der FahrzeugResource.
+
+```java
+@Mapper
+public interface FahrzeugToFahrzeugResourceMapper {
+    Fahrzeug mapToFahrzeug(FahrzeugResource fahrzeugResource);
+    FahrzeugResource mapToFahrzeugResource(Fahrzeug fahrzeug);
+}
+
+```
 
 ```java
 public class Fahrzeug {
@@ -81,20 +91,10 @@ public class FahrzeugResource {
 }
 ```
 
-Ein Mapper ganz in diesem Szenario durch ein Interface mit definierte Schnittstelle für die zu transformierende Objekte.
-
-```java
-@Mapper
-public interface FahrzeugToFahrzeugResourceMapper {
-    Fahrzeug mapToFahrzeug(FahrzeugResource fahrzeugResource);
-    FahrzeugResource mapToFahrzeugResource(Fahrzeug fahrzeug);
-}
-
-```
-
 ### Erweiteres Mapping zwischen Domäne und der Infrastrukturkomponente ServiceClient
 
-Besteht keine Namensgleichheit, kann durch die Annotation @Mapping, das Standardverhalten von MapStruct angepasst werden.
+Besteht keine Namensgleichheit, kann durch die Annotation @Mapping, das Standardverhalten von MapStruct angepasst werden. Dies ist der Fall
+im Zusammenspiel mit dem externen Datenmodell VehicleDto.
 
 ```java
 public class VehicleDto {
@@ -127,8 +127,6 @@ public class VehicleDto {
     }
 }
 ```
-
-Hierfür muss ein Profile von AutoMapper erstellt werden.
 
 ```java
 @Mapper
